@@ -78,3 +78,116 @@ x_std = ss.transform(x)
 #よく使われる書き方
 x_std = scaler.fit_transform(df[['engine_size']])
 ```
+
+
+
+## 回帰とは
+- **目的**：入力（説明変数）から、**連続値の出力（目的変数）**を予測する。
+- **例**：
+  - 身長 → 体重を予測  
+  - 広告費 → 売上を予測  
+
+---
+
+## ⚙️ 1. 必要なライブラリ
+```python
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+```
+
+---
+
+## 📊 2. データの準備
+```python
+# サンプルデータ
+data = {
+    "height": [150, 160, 170, 180, 190],
+    "weight": [50, 55, 65, 75, 85]
+}
+df = pd.DataFrame(data)
+
+# 説明変数（X）と目的変数（y）
+X = df[["height"]]  # DataFrame型（2次元）
+y = df["weight"]    # Series型（1次元）
+```
+
+---
+
+## ✂️ 3. 学習用とテスト用に分割
+```python
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+```
+
+---
+
+## 🧮 4. モデルの学習（訓練）
+```python
+model = LinearRegression()
+model.fit(X_train, y_train)  # ← fitで学習
+```
+
+---
+
+## 🔍 5. 予測と評価
+```python
+# 予測
+y_pred = model.predict(X_test)
+
+# 評価指標
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print("平均二乗誤差:", mse)
+print("決定係数 R^2:", r2)
+```
+
+---
+
+## 🧩 6. 学習結果の確認
+```python
+print("傾き（係数）:", model.coef_)
+print("切片:", model.intercept_)
+```
+
+---
+
+## 📉 7. グラフで可視化（任意）
+```python
+import matplotlib.pyplot as plt
+
+plt.scatter(X, y, color="blue", label="data")
+plt.plot(X, model.predict(X), color="red", label="regression line")
+plt.xlabel("Height")
+plt.ylabel("Weight")
+plt.legend()
+plt.show()
+```
+
+---
+
+## ✅ 要約
+
+| 概念 | 関数/メソッド | 意味 |
+|------|----------------|------|
+| データ分割 | `train_test_split()` | 学習・評価を分ける |
+| 学習 | `fit(X, y)` | 回帰式の係数を求める |
+| 予測 | `predict(X)` | 学習した式で予測 |
+| 評価 | `mean_squared_error`, `r2_score` | モデルの精度を測る |
+
+---
+
+## 💡 線形回帰モデルの式
+学習の結果、モデルは次の形で表されます：
+
+\[
+\hat{y} = a x + b
+\]
+
+- \( a = \) `model.coef_`（傾き）
+- \( b = \) `model.intercept_`（切片）
+- \( \hat{y} = \) `model.predict(x)`（予測値）
+
