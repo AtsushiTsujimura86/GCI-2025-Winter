@@ -97,3 +97,75 @@ plt.show()
 | `.predict(X)` | 予測 | 新しいデータのクラスを予測 |
 | `.score(X, y)` | 評価 | 正解率（Accuracy）を計算 |
 | `plot_tree(model)` | 可視化 | 学習済みの木をグラフで描画 |
+
+
+## 欠損値の補完
+### 単純な最頻値による補完
+<img width="300" height="240" alt="image" src="https://github.com/user-attachments/assets/39a41bbc-6711-4b95-b614-0a660d338af6" />
+
+```python
+print(df["bruises"].describe())
+```
+uniqueは種類の数、topは最頻値、frecは最頻値の数
+<img width="200" height="200" alt="image" src="https://github.com/user-attachments/assets/106aacb8-c4f9-4a42-bb32-d9388cf1feed" />
+```python
+#bruisesの最頻値を取得
+ top = df["bruises"}.describe()['top']
+  --> 'N'
+
+#最頻値で欠損値補完
+df_fill = df.fillna(top)
+```
+今回は、欠損しているのが"bruises"の列だけだったから、この書き方で行ける。この書き方はすべての欠損値を引数の値で埋める。  
+複数列で欠損値がある場合は、```df.fillna({'name': 'XXX', 'age': 20, 'ZZZ': 100})```
+
+上の例ではすべての欠損値を"bruises"の最頻値で補完したが、データによっては、特徴量同士に関係性を持つ可能性がある。
+例えば、白いキノコであれば斑点ありの傾向があるなど  
+--> 次はキノコの色ごとの"bruises"の最頻値を求め、それでそれぞれの欠損値を補完していく。
+
+### キノコの色ごとの"bruises"の最頻値による補完
+<img width="500" height="150" alt="image" src="https://github.com/user-attachments/assets/9f85eaed-43a2-4fa3-9815-add723832821" />
+<br>
+
+```python
+#"cap_color"でグループ分けして、それぞれの"cap_color"ごとの"bruises"の最頻値を取得
+top = df.groupby(["cap_color"])["bruises"].describe()["top"]
+```
+<img width="130" height="310" alt="image" src="https://github.com/user-attachments/assets/d8c64661-f864-452b-beb3-76efa8091581" />
+<br>
+
+```python
+#bruisesの欠損値のあるデータのみ取得
+is_null = df['bruises'].isnull()
+```
+<img width="150" height="320" alt="image" src="https://github.com/user-attachments/assets/58c0b19e-fa53-4970-a149-a4151a52626b" />
+<br>
+
+欠損行を抽出するには、loc属性の[]の中に、欠損値の**真偽値**のSeriesオブジェクトを渡します
+```python
+df.loc[is_null]
+```
+<img width="150" height="120" alt="image" src="https://github.com/user-attachments/assets/614e8857-04dc-47ad-a41c-14980973cb49" />
+<br>
+
+欠損値に色のグループで分けた最頻値を代入する。代入する値は、変数topsに対して各インデックスを指定して参照した最頻値
+```python
+for color in df['cap_color'].unique():
+  df.loc[(df['cap_color'] == color) & (is_null), 'bruises'] = tops[color]
+```
+補足：  
+```df.loc[mask, 'bruises']```  → マスク(真偽の条件)で選んだ行の 'bruises' 列を指す。
+``` python
+# 形式
+# df.loc[行ラベル or ブール配列, 列ラベル]
+df.loc[3, 'bruises']                 # 行ラベル3の 'bruises' を取得
+df.loc[df['cap_color']=='a', :]      # 条件で行抽出（全列）
+df.loc[rows_mask, ['height','width']]# マスクで行、列名で列を指定
+df.loc[:, 'bruises'] = 'N'           # 列全体を書き換え
+df.loc[rows_mask, 'bruises'] = value # 条件行だけを安全に代入（推奨）
+```
+
+
+
+
+
