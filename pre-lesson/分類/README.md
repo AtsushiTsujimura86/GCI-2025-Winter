@@ -99,6 +99,36 @@ plt.show()
 | `plot_tree(model)` | 可視化 | 学習済みの木をグラフで描画 |
 
 
+## ホールドアウト法
+モデルの評価方法の一つ。全データを学習用（訓練データ）と評価用（テストデータ）に分ける。そして、訓練データのみでモデルを学習させ、モデルの学習に使用しないテストデータで予測精度を評価します。試験勉強のために過去問を使用する際に、全ての過去問と解答を見て勉強するのではなく、一部の過去問は、最後にとっておいて、勉強後の理解度確認テストとして利用するのに似ています。
+
+ホールドアウト法は、scikit-learnのtrain_test_split関数の使用で容易に実装できます。train_test_split関数に引数（特徴量, 正解ラベル）を渡して呼び出すと、［特徴量（訓練データ）, 特徴量（テストデータ）, 正解ラベル（訓練データ）, 正解ラベル（テストデータ］のリストが返されます。
+
+<img width="735" height="404" alt="image" src="https://github.com/user-attachments/assets/d52bab25-906c-4276-b5f5-84e0087c1f31" />
+
+```python
+#scikit-learnのmodel_selectionからtrain_test_split関数をインポート
+from sklearn.model_selection import train_test_split
+
+df_dummy = pd.get_dummies(df['cap_color'], drop_first= True, dtype = int)
+x = df_dummy
+y = df['poison']
+
+x_train, x_test, y_train, y_test = train_test_split(x, y)
+
+print('分割前のデータ数', len(df))
+print('訓練データ数：', len(x_train))
+print('テストデータ数：', len(x_test))
+print('テストデータの割合：',len(x_test)/len(df))
+
+#出力
+分割前のデータ数 8124
+訓練データ数： 6093
+テストデータ数： 2031
+テストデータの割合： 0.25
+デフォルトでは、25％がテストデータとなるようになっていますが、train_test_split関数にtest_size = 0.3として引数を指定すると30％となるように変更できます
+
+
 ## 欠損値の補完
 ### 単純な最頻値による補完
 <img width="300" height="240" alt="image" src="https://github.com/user-attachments/assets/39a41bbc-6711-4b95-b614-0a660d338af6" />
