@@ -272,3 +272,35 @@ plt.tight_layout()
 plt.show()
 
 ```
+
+## 欠損値の補完とエンコーディング
+- 欠損値の補完：データの中で抜けている部分（欠損値）を、平均値や最頻値などを使って埋める作業です。
+- エンコーディング：文字（例：Sexの「male」「female」）で書かれた情報を、機械学習で使えるように数字に変換する作業です。
+
+欠損値補完には中央値(median)、平均値(mean)、最頻値(mode)、外れ値で補完、モデルの予測結果で補完などがある。  
+`fillna(補完する値)`で欠損値(NaN)を補完できる。
+```python
+# 最頻値で補完する対象の列
+cols_to_fill = ["Cabin", "Embarked"]
+
+# train の最頻値で train/test 両方を補完
+for col in cols_to_fill:
+    mode_value = train[col].mode()[0]
+    train[col] = train[col].fillna(mode_value)
+    test[col] = test[col].fillna(mode_value)
+```
+
+#### エンコーディングの代表的な手法
+- One-hot Encoding：カテゴリごとに新しい列を作り、0か1で表す方法
+- Label Encoding：カテゴリに順番をつけて、0, 1, 2…と数字に置き換える方法
+今回は、 Label Encoding を使います。 Label Encodingは「男性 → 0、女性 → 1」のように、カテゴリをシンプルに数字に置き換える方法で、手軽に使えるのが特徴です。
+```python
+# カテゴリデータをラベルエンコーディング
+from sklearn.preprocessing import LabelEncoder 
+label_encoders = {}
+for c in ["Sex", "Cabin", "Embarked"]:
+    label_encoders[c] = LabelEncoder()
+    label_encoders[c].fit(pd.concat([train[c], test[c]]).astype(str))
+    train[c] = label_encoders[c].transform(train[c].astype(str))
+    test[c] = label_encoders[c].transform(test[c].astype(str))
+```
