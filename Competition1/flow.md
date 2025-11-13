@@ -304,3 +304,71 @@ for c in ["Sex", "Cabin", "Embarked"]:
     train[c] = label_encoders[c].transform(train[c].astype(str))
     test[c] = label_encoders[c].transform(test[c].astype(str))
 ```
+label_encodersディクショナリに各カラム（カテゴリデータ）を数値に変換するエンコーダ(LabelEncoder())を格納する。このエンコーダに対してカテゴリデータを学習(fit)させる。このとき、concat(train, test)でtrainとtestを縦に結合する（どちらかにしか含まれていないカテゴリデータがある可能性があるため）。その後学習済みのエンコーダを使って、カテゴリデータを数値に変換(transform)して、train, testのそれぞれにおいて置きかえる。
+
+
+## モデル
+今回はランダムフォレストという決定木ベースのモデルを使用する。ランダムフォレストは、複数の決定木を組み合わせて予測を行うモデル。
+今回の train データを 7:3 に分割します。70％を「訓練用データ（train）」、30％を「評価用データ（valid）」として使います。  
+こうすることで、モデルを「訓練用データ」で学習させ、まだ見せていない「評価用データ」で予測させることができます。 そして、その予測がどれくらい正しかったかを確かめることで、モデルの性能を手元で評価できます。
+```python
+# 特徴量と目的変数に分ける
+X = train.drop(columns=["Perished"])  # 予測に使う説明変数
+y = train["Perished"]                 # 予測したい目的変数
+
+# データを7:3に分割（訓練データ70%、検証データ30%）
+X_train, X_valid, y_train, y_valid = train_test_split(
+    X, y, test_size=0.3, random_state=46, stratify=y
+)
+
+# モデルの設定（ランダムフォレスト）
+model = RandomForestClassifier(
+    n_estimators=100,
+    max_depth=5,
+    random_state=2025
+)
+
+# モデルを訓練データで学習
+model.fit(X_train, y_train)
+
+# 検証データで予測（クラスラベルを出力）
+y_valid_pred = model.predict(X_valid)
+
+# Accuracyスコアで性能を評価
+accuracy = accuracy_score(y_valid, y_valid_pred)
+print("検証データの正解率:", round(accuracy, 4))
+```
+
+## 特徴量エンジニアリング
+特徴量エンジニアリングとは、もともとのデータを工夫して、 モデルがもっと学習しやすくなるような新しい情報（特徴量）を作ることです。これは、モデルの予測の精度を上げるためにとても大切なステップのひとつです。たとえば：  
+- 「Age」から「子ども／大人」を作る
+- 「SibSp」と「Parch」から「家族の人数」を作る
+- 「SibSp」と「Parch」から「一人で乗船したかどうか」を作る  
+といった工夫が特徴量エンジニアリングにあたります。
+```python
+# 家族人数 (FamilySizemilySize) の作成
+train["FamilySize"] = train["SibSp"] + train["Parch"] + 1
+test["FamilySize"] = test["SibSp"] + test["Parch"] + 1
+
+# 一人で乗船したかどうか (IsAlone) の作成
+train["IsAlone"] = 0
+train.loc[train["FamilySize"] == 1, "IsAlone"] = 1
+test["IsAlone"] = 0
+test.loc[test["FamilySize"] == 1, "IsAlone"] = 1
+
+# 確認
+train[["SibSp", "Parch", "FamilySize", "IsAlone"]].head()
+```
+ここで、`loc[train["FamilySize"]==1, "IsAlone"] = 1`は、「FamilySize==1 の行の IsAlone に 1を入れる」という意味。ちなみに `.loc` の構文はとても強力で、  
+「条件で一部だけ書き換える」処理にしょっちゅう使われます。  
+
+
+## 次にできる工夫
+より高い予測精度を目指して、次のような工夫をすると良いでしょう。
+
+- カテゴリデータのエンコーディング方法を変えてみる
+- 欠損値の埋め方を工夫する
+- 別のモデルを試してみる
+- モデルの設定（ハイパーパラメータ）を調整する
+- 新しい特徴量を作る（特徴量エンジニアリング）
+- demo_advancedを実行してみる
