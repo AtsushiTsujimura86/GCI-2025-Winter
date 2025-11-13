@@ -137,6 +137,33 @@ for age, count in zip(a.index, a.values):
 こうした特徴量をモデルに入力して、「この人は助かったか？」を予測していくわけです。数値の特徴量をグラフにして見てみることで、値のばらつきはあるか？極端に大きな値や小さな値（外れ値）はあるか？そもそもどういう分布になっているか？などのポイントを確認できます。
 
 ## 特徴量の可視化
+```python
+num_cols = ["Age", "SibSp", "Parch", "Fare"]
+
+# サブプロットの行数
+n_rows = len(num_cols)
+
+fig, axes = plt.subplots(n_rows, 2, figsize=(10, 4 * n_rows))
+
+for i, col in enumerate(num_cols):
+    # 共通のx軸範囲を計算
+    min_val = min(train[col].min(), test[col].min())
+    max_val = max(train[col].max(), test[col].max())
+
+    # 左: train
+    axes[i, 0].hist(train[col].dropna(), bins=30, color="skyblue", edgecolor="black")
+    axes[i, 0].set_title(f"Train - {col}")
+    axes[i, 0].set_xlim(min_val, max_val)
+
+    # 右: test
+    axes[i, 1].hist(test[col].dropna(), bins=30, color="salmon", edgecolor="black")
+    axes[i, 1].set_title(f"Test - {col}")
+    axes[i, 1].set_xlim(min_val, max_val)
+
+plt.tight_layout()
+plt.show()
+```
+
 
 ##  `fig` と `axes` の正体
 
@@ -206,3 +233,42 @@ axes[1,0].set_title("グラフ2")
 | `fig, axes = plt.subplots(2, 2)` | グラフ複数 → `axes`（配列） |
 | `figsize=(w, h)` | 全体サイズを指定（単位はインチ） |
 
+
+## カテゴリデータとは
+カテゴリデータとは、数ではなく「グループ」や「ラベル」などで表されるデータのことです。 今回のデータの中では、以下のようなものがカテゴリデータに当たります：  
+- Sex（male / female）
+- Embarked（C / Q / S）
+- Pclass（1 / 2 / 3）  
+こういったデータは、「数の大小」で比較するのではなく、どのグループに属しているかが重要になります。カテゴリデータも、棒グラフなどを使って可視化することで、どのカテゴリが多いのか少ないのか（データの偏り）、予測に使えそうな特徴量はどれかといったことが見えてきます。
+
+```python
+# 可視化するカテゴリ列
+cat_cols = ["Sex", "Embarked", "Pclass"]
+
+# サブプロットの行数
+n_rows = len(cat_cols)
+
+fig, axes = plt.subplots(n_rows, 2, figsize=(10, 4 * n_rows))
+
+for i, col in enumerate(cat_cols):
+    # 左: train
+    train_counts = train[col].value_counts(dropna=False)
+    axes[i, 0].bar(train_counts.index.astype(str), train_counts.values, color="skyblue", edgecolor="black")
+    axes[i, 0].set_title(f"Train - {col}")
+
+    # 右: test
+    test_counts = test[col].value_counts(dropna=False)
+    axes[i, 1].bar(test_counts.index.astype(str), test_counts.values, color="salmon", edgecolor="black")
+    axes[i, 1].set_title(f"Test - {col}")
+
+    # 横軸ラベルを揃える
+    axes[i, 0].set_xticks(range(len(train_counts.index)))
+    axes[i, 0].set_xticklabels(train_counts.index.astype(str), rotation=45)
+
+    axes[i, 1].set_xticks(range(len(test_counts.index)))
+    axes[i, 1].set_xticklabels(test_counts.index.astype(str), rotation=45)
+
+plt.tight_layout()
+plt.show()
+
+```
