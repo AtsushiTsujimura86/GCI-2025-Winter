@@ -95,7 +95,8 @@ D → 0.50
 |---------|------------|--------|
 | **map** | 1つの値を1つの値に置換 | 辞書置換に最適・高速(Cレベル) |
 | **apply** | 複雑な処理（if、正規表現など） | mapより遅い、lambdaと併用 |
-こんかいのmapをapplyで書くと、
+
+今回ののmapをapplyで書くと、
 `train["School"].apply(lambda x: school_mean(x))`で書けるがかなり遅い
 
 Target Encoding は「値の置換」なので **map が最適**
