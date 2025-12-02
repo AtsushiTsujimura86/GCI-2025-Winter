@@ -9,5 +9,10 @@ YearとDraftedはあまり関係なさそう、Yearはdropする
 
 <img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/872dd2d6-fd25-4f30-a8e6-e198ce0998a3" />
 
+## BMI
+
+<img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/9c862260-aa92-4dbf-9576-eb18ccd374e4" />
+
+
 
 
