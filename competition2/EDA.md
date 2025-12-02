@@ -5,4 +5,9 @@ YearとDraftedはあまり関係なさそう、Yearはdropする
 ---
 
 ## 年齢
+削除するほどでもないけど、特に加工もしない。判断が難しい。
+
 <img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/872dd2d6-fd25-4f30-a8e6-e198ce0998a3" />
+
+
+
