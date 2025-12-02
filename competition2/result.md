@@ -153,3 +153,68 @@
 
 → これで **LB 0.81〜0.83** は確実に狙える
 
+
+## コンペ2：LB 0.81351 モデル（コード版の記録）
+
+### 1. 使用した LightGBM パラメータ
+```python
+best_params = {
+    "objective": "binary",
+    "boosting_type": "gbdt",
+    "learning_rate": 0.0864,
+    "num_leaves": 56,
+    "max_depth": 3,
+    "min_data_in_leaf": 42,
+    "feature_fraction": 0.6605,
+    "bagging_fraction": 0.8603,
+    "bagging_freq": 4,
+    "lambda_l1": 2.7769,
+    "lambda_l2": 3.6208,
+    "n_estimators": 3000,
+    "random_state": 42,
+    "n_jobs": -1,
+}
+```
+
+### 2. 使用した特徴量
+- `Position_TE`（リークあり TE）
+- `School_TE`（リークあり TE）
+- `Speed = 1 / Sprint_40yd`
+- `Power1 = Weight * Bench_Press_Reps`
+- `Jump = Vertical_Jump * Weight`
+- その他元データ（Height, Weight など）
+
+### 3. 前処理
+- `Position` を drop
+- `School` を drop
+- `Id`, `Year`, `Height` を drop（※この時点ではここはあまり効いてない）
+- 特徴量の欠損処理はなし（データが綺麗なので）
+
+### 4. 学習方法（KFold）
+- StratifiedKFold(n_splits=5, shuffle=True)
+- fold ごとに：
+  - model.fit(..., eval_set=[(X_val, y_val)], eval_metric="auc")
+  - early_stopping_round = 100
+  - OOF に予測を入れる
+  - test へ平均予測
+
+### 5. 結果
+- **Final OOF AUC ≈ 0.857〜0.858（リークにより高かった）**
+- **LB（public leaderboard）：0.81351**
+
+### 6. 提出ファイル
+- 保存名：`lgbm_kfold_optuna_submission.csv`
+
+### 7. Feature Importance を出力
+- gain/split を DataFrame 化
+- 上位20項目をバー図で可視化
+
+---
+
+## コメント
+- このモデルは「リークあり TE（train の平均を直接使用）」だったため、  
+  OOF が高く出て **0.858 → LB 0.8135** と **乖離が大きかった**。
+- それでも基準として強いモデルだったため、提出時点では妥当な成果。
+
+
+
