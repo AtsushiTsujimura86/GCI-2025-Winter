@@ -14,6 +14,11 @@ len(df[cat].unique())
 df[cat].nunique()
 ```
 
+## SeriesをDataFrameに変換
+df = series.reset_index()
+
+## Seriesから
+
 ## seabornでもsubplot
 ```python
 # カラムごとの平均Drafted、率と数
