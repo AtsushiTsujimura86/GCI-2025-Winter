@@ -141,3 +141,25 @@ YearとDraftedはあまり関係なさそう、Yearはdropする
 - Shuttle：0.7572  
 
 
+## 不採用の特徴量エンジニアリング
+
+``` python
+# Step2: Agility Score --> 不採用
+train["Agility"] = -(train["Shuttle"] + train["Agility_3cone"])
+test["Agility"]  = -(test["Shuttle"] + test["Agility_3cone"])
+
+# JumpPowerの追加 --> 同じような要素は大体ダメ、不採用
+train["JumpPower"] = train["Vertical_Jump"] * train["Weight"]
+test["JumpPower"] = test["Vertical_Jump"] * test["Weight"]
+
+
+# AgilytyScoreの追加 --> 不採用
+train["AgilityScore"] = -(train["Shuttle"] + train["Agility_3cone"])
+test["AgilityScore"] = -(test["Shuttle"] + test["Agility_3cone"])
+
+# StrengthScoreの追加 --> 不採用
+train["StrengthScore"] = train["Bench_Press_Reps"] * train["Weight"]
+test["StrengthScore"] = test["Bench_Press_Reps"] * test["Weight"]
+```
+
+
