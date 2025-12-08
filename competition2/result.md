@@ -154,7 +154,7 @@
 → これで **LB 0.81〜0.83** は確実に狙える
 
 
-## コンペ2：LB 0.81351 モデル（コード版の記録）
+## No.4 LB 0.81351 モデル（コード版の記録）
 
 ### 1. 使用した LightGBM パラメータ
 ```python
@@ -215,6 +215,72 @@ best_params = {
 - このモデルは「リークあり TE（train の平均を直接使用）」だったため、  
   OOF が高く出て **0.858 → LB 0.8135** と **乖離が大きかった**。
 - それでも基準として強いモデルだったため、提出時点では妥当な成果。
+- 
+
+## コンペ2：LB 0.83777 モデル（KFold Target Encoding 版）
+
+### 1. 前処理（リークなし設計）
+- Position → **KFold Target Encoding（n_splits=5）**
+- School → **KFold Target Encoding（n_splits=5）**
+- TE 作成後、元の `Position`、`School` は drop
+- `Id`, `Year`, `Height` を drop
+- データ欠損は特になし
+
+### 2. 特徴量
+- **Speed = 1 / Sprint_40yd**
+- **Power1 = Weight × Bench_Press_Reps**
+- **Jump = Vertical_Jump × Weight**
+- **Small_Speed = Speed × Height**
+- 上位の複合特徴量（筋力×速度×敏捷性の組み合わせ）
+- Position_Type, Player_Type は drop（重要度が低かったため）
+
+※ すべて train/test に同じ処理
+
+### 3. Target Encoding（リークなし）
+- 5-fold の内側平均で train を TE
+- test は train 全体の平均で TE
+- 未知カテゴリは train の Drafted 平均で補完
+
+### 4. モデル構築（KFold 5fold）
+- StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+- fold ごとに LightGBM を学習
+- **early_stopping_round = 100**
+- test は 5fold の平均予測
+
+### 5. LightGBM（Optuna 最適パラメータ）
+```python
+{
+    "learning_rate": 0.06220723694105511,
+    "num_leaves": 70,
+    "max_depth": 2,
+    "min_data_in_leaf": 81,
+    "feature_fraction": 0.8765080382766045,
+    "bagging_fraction": 0.6497808211165161,
+    "bagging_freq": 5,
+    "lambda_l1": 3.779858381614759,
+    "lambda_l2": 4.98951267041534,
+    "n_estimators": 3000,
+    "objective": "binary",
+    "boosting_type": "gbdt",
+    "random_state": 42,
+    "n_jobs": -1
+}
+```
+
+### 6. 結果
+- **Final OOF AUC：0.8365 前後**
+- **LB（public leaderboard）：0.83777**
+- → CV と LB の一致度が非常に高く、モデルが正しく評価されている状態
+
+### 7. 提出ファイル
+- **lgbm_final_kfold_optuna_v2_submission.csv**
+
+### 8. 所感（簡潔）
+- KFold Target Encoding でリークを完全に抑えたことで  
+  OOF ≈ LB となり、信頼性の高いスコアに改善。
+- 特徴量（Speed系, Power系, Small_Speed）が特に効果的。
+- Optuna のパラメータ最適化もリークなしデータにフィットしており、安定した精度を実現。
+
 
 
 
