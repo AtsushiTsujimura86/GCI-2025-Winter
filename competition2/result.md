@@ -281,7 +281,8 @@ best_params = {
 - 特徴量（Speed系, Power系, Small_Speed）が特に効果的。
 - Optuna のパラメータ最適化もリークなしデータにフィットしており、安定した精度を実現。
 
-
+<br>
+--- 
 
 ## モデル構築コードまとめ（Frequency Encoding + Target Encoding + 多モデルスタッキング）
 
