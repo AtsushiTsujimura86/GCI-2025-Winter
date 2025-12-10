@@ -283,4 +283,95 @@ best_params = {
 
 
 
+## モデル構築コードまとめ（Frequency Encoding + Target Encoding + 多モデルスタッキング）
+
+本ドキュメントは、今回構築したモデルパイプライン全体を整理したものである。  
+コード本文は省略し、**各パートで何をしているか** を簡潔にまとめる。
+
+---
+
+## 1. データ読み込みと基本前処理
+- Google Drive をマウントし、train/test を読み込む。
+- `Year`, `Id`, `Player_Type`, `Position_Type` など学習不要な列を削除。
+- train/test の形状を確認する。
+
+---
+
+## 2. Frequency Encoding（件数エンコーディング）
+- `School` と `Position` の登場回数を特徴量として追加。
+- これは Target Encoding とは異なる「カテゴリの人気度」を学習させることで、多様性を増やす狙いがある。
+- 特に今回のデータでは頻度が非常に効きやすく、LGBM depth=3 の AUC を大幅に改善した。
+
+---
+
+## 3. Target Encoding（Leak-Free）
+- `Position` と `School` に対して KFold を用いたリーク防止の Target Encoding を実施。
+- smoothing=30（固定）で、カテゴリの平均 Draft 率を特徴量化。
+- 最後に `Position` と `School` の元列を削除する。
+
+---
+
+## 4. 特徴量エンジニアリング
+主に身体能力指標の相互作用や組み合わせを特徴量として追加。
+- Speed（40yd の逆数）
+- Speed × Weight, Speed × Height
+- Position_TE × Speed
+- 40yd と Height の差
+- Shuttle / Weight
+- Age と Speed の組み合わせ
+- BenchPress / Age など
+
+これらによって非線形関係をモデルが学習しやすくなる。
+
+---
+
+## 5. LightGBM（depth=1,3,5）
+3種類の LightGBM モデルを学習。
+- depth=1 → 決定 stump。Age など強い一次境界を高速に捉える。
+- depth=3 → Frequency Encoding の効果で大幅に性能改善した。
+- depth=5 → より複雑な境界を学習させ、多様性を確保。
+
+3つの LGBM は互いに異なる構造の決定境界を持ち、スタッキング時に補完し合う。
+
+---
+
+## 6. CatBoost
+- デフォルトでカテゴリに強いモデル。
+- 今回は数値化済みデータなので、補完的モデルとして利用。
+- 頻度特徴量＋TE との相性が良く、0.84 付近の安定した AUC を示した。
+
+---
+
+## 7. XGBoost
+- 深い木構造と強い正則化により、LGBM とは異なる境界を学習。
+- AUC は単体で最強ではないが、スタッキングで多様性を生み出す役割を持つ。
+
+---
+
+## 8. スタッキング（Logistic Regression）
+- LGBM（1,3,5）、CatBoost、XGBoost の oof 予測を縦に結合して学習。
+- Meta モデルとしてロジスティック回帰を採用。
+- 各モデルの強みを適切に重み付けでき、最終 AUC は **0.8439** を達成。
+
+---
+
+## 9. Submission 生成
+- meta モデルの test 予測を CSV に書き出し、提出形式に整える。
+
+---
+
+## まとめ
+本パイプラインの構成要点は以下の通り。
+
+1. **Frequency Encoding** によりカテゴリの「人気度」を明示し、LGBM depth=3 の性能が劇的に改善した。  
+2. **Leak-Free Target Encoding** により School/Position の Draft 傾向を安定的に表現。  
+3. **複数の LGBM（depth違い）＋ CatBoost ＋ XGBoost** により決定境界の多様性を最大化。  
+4. **ロジスティック回帰スタッキング** によって、モデルの強みを適切に統合。  
+5. 最終的に **Stacking AUC ≈ 0.844** と、十分競争力のある水準に到達。
+
+改善余地としては、**Target Encoding の smoothing 最適化** や  
+**相互作用特徴量の自動生成** が挙げられるが、現状でも安定した高スコアが期待できる構成となっている。
+
+
+
 
