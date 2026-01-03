@@ -86,3 +86,189 @@
 - 事業提案
     1. 事業案の提示
     2. 導入規模・効果の定量評価
+
+<br>
+
+  ## W社 人事・離職データセット概要
+
+本データセットは、大手IT企業である **W社** の過去の人事データを基に構成されたものであり、  
+従業員の属性・勤務状況・満足度・福利厚生利用状況・パフォーマンス評価等と、  
+**離職（Attrition）に関する情報** を含んでいる。
+
+元データは *IBM HR Analytics Employee Attrition & Performance* をベースとしているが、  
+本課題用に一部カラムの追加・変更が行われている。  
+なお、本データは実在企業の実態を正確に反映するものではなく、  
+**最終課題では「大手IT企業」を想定した仮想データとして扱う。**
+
+---
+
+## データセットの基本情報
+
+- 対象：W社に在籍していた約1,500名の従業員
+- データ形式：CSV
+- 主な用途：
+  - 離職要因の分析
+  - 従業員満足度・働き方・制度利用とパフォーマンスの関係分析
+  - 事業改善・人事施策立案のためのPoC分析
+
+---
+
+## 特徴量（カラム）概要
+
+### Education
+従業員の最終学歴を示す指標。
+
+- 1: Below College  
+- 2: College  
+- 3: Bachelor  
+- 4: Master  
+- 5: Doctor  
+
+---
+
+### EnvironmentSatisfaction
+職場環境全体に対する満足度。
+
+- 1: Low  
+- 2: Medium  
+- 3: High  
+- 4: Very High  
+
+---
+
+### JobInvolvement
+業務への関与度（仕事への主体的な関わりの度合い）。
+
+- 1: Low  
+- 2: Medium  
+- 3: High  
+- 4: Very High  
+
+---
+
+### JobSatisfaction
+業務内容そのものに対する満足度。
+
+- 1: Low  
+- 2: Medium  
+- 3: High  
+- 4: Very High  
+
+---
+
+### RelationshipSatisfaction
+上司・同僚など職場内の人間関係に対する満足度。
+
+- 1: Low  
+- 2: Medium  
+- 3: High  
+- 4: Very High  
+
+---
+
+### WorkLifeBalance
+仕事と私生活のバランス評価。
+
+- 1: Bad  
+- 2: Good  
+- 3: Better  
+- 4: Best  
+
+---
+
+### RemoteWork
+リモートワークの実施形態。
+
+- 1: On-site work  
+- 5: Full remote  
+
+---
+
+### Incentive
+成果に応じて支給される報酬・インセンティブの水準。
+
+（数値スケール。詳細な評価基準は非公開）
+
+---
+
+### StressRating
+上司・人事・産業医等による **客観的なストレス評価**。
+
+- 1: Very Low  
+- 3: Average  
+- 5: Very High  
+
+---
+
+### StressSelfReported
+社内ストレスチェック等による **本人申告のストレス評価**。
+
+- 1: Very Low  
+- 3: Average  
+- 5: Very High  
+
+---
+
+### WelfareBenefits
+福利厚生制度の利用頻度。
+
+- 1: Rarely Used  
+- 4: Very Frequently Used  
+
+---
+
+### InHouseFacility
+社内施設（ジム・カフェ・社員食堂など）の利用有無。
+
+- 0: No  
+- 1: Yes  
+
+---
+
+### ExternalFacility
+社外提携施設（語学学校・提携施設など）の利用有無。
+
+- 0: No  
+- 1: Yes  
+
+---
+
+### ExtendedLeave
+育児休業・産休・リフレッシュ休暇・ボランティア休暇等の  
+**長期休暇取得経験の有無**。
+
+- 0: No  
+- 1: Yes  
+
+---
+
+### FlexibleWork
+フレックスタイム・時短勤務など柔軟な働き方制度の利用有無。
+
+- 0: No  
+- 1: Yes  
+
+---
+
+### PerformanceIndex
+労働生産性を数値化した指標（100点満点スケール）。
+
+---
+
+### PerformanceRating
+年次人事評価による業績評価。
+
+- 1: Low  
+- 2: Good  
+- 3: Excellent  
+- 4: Outstanding  
+
+---
+
+## 補足事項
+
+- 一部カラムの定義は限定的にしか開示されておらず、不明点を含む
+- 不明確な仕様自体も「実務上の制約条件」として分析対象とする
+- 本データセット全体を俯瞰したEDAを行った上で、
+  特定の課題・目的変数を設定することが求められる
+
