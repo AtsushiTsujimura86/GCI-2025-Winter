@@ -116,6 +116,69 @@
   ---
   <br>
 
+## 重要そうなカラムとattritionとの関係
+対象： 'StressRating',
+    'StressSelfReported',
+    'JobSatisfaction',
+    'WorkLifeBalance',
+    'RemoteWork'
+### StressRating
+<img width="759" height="458" alt="image" src="https://github.com/user-attachments/assets/d85b199c-d1fd-4d71-beca-5c3cb947ebf6" />
+
+#### 在職者（Attrition = No）
+- StressRating = 2, 3 が 約81%
+- StressRating = 4, 5 は 約8%
+#### 離職者（Attrition = Yes）
+- StressRating = 2, 3 が 約58%
+- StressRating = 4, 5 が 約31%
+#### 考察
+在職者はstressratingが2,3が81％をしめ、おおむねストレスは少なく働けている。また、離職者は4,5が31％を占め、在職者の8パーセントに比べてストレスを感じている割合が多いことがうかがえる。
+このことから、離職者は在職者よりもストレスを感じ、離職していったのではないかと推測できる。
+
+
+### StressSelfReported
+<img width="742" height="451" alt="image" src="https://github.com/user-attachments/assets/239e5850-6aa2-4a5c-958e-8fbb4b97887a" />
+
+#### 考察
+StressSelfReported は Attrition との直接的な関係は弱かった。
+一方で、StressRating では離職者において高ストレス層の割合が高く、
+自己申告と客観評価の乖離が存在する可能性が示唆された。
+これは、従業員がストレスを正確に申告できていない、
+あるいは組織内で申告しにくい風土が存在する可能性を示す。
+
+#### StressGap の導入と結果・考察
+
+StressRating（客観評価）と StressSelfReported（自己申告）の差分として  
+**StressGap = StressRating − StressSelfReported** を定義し、  
+自己認識と客観評価の乖離に着目した分析を行った。
+
+分析の結果、StressGap が大きい従業員（StressGap ≥ 2）では、  
+離職率が約30%と、乖離が小さい従業員（約15%）と比較して  
+**約2倍高い**ことが確認された。
+
+また、Attrition 別の分布を比較すると、離職者では  
+正の StressGap（客観評価の方が高い）が相対的に多く、  
+本人が自覚・申告していない高ストレス状態が  
+離職リスクと関連している可能性が示唆された。
+
+この結果から、自己申告に依存したストレス把握には限界があり、  
+客観評価との乖離を考慮した従業員モニタリングや  
+早期介入施策の必要性が示された。
+
+| HighStressGap | Attrition = No (%) | Attrition = Yes (%) |
+|--------------|-------------------:|--------------------:|
+| 0            | 85.29              | 14.71               |
+| 1            | 70.14              | 29.86               |
+
+| HighStressGap | Attrition = No (%) | Attrition = Yes (%) |
+|--------------|-------------------:|--------------------:|
+| 0            | 91.80              | 81.93               |
+| 1            | 8.20               | 18.07               |
+
+
+<img width="770" height="452" alt="image" src="https://github.com/user-attachments/assets/1b800a7f-b7bb-4b0d-80e6-1280974a81b1" />
+
+
 ## データセットのカラム一覧（ユニーク値整理版）
 
 - Age（年齢）、int  
