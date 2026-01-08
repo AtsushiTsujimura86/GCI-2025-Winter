@@ -191,8 +191,36 @@ WorkLifeBalance と Attrition の関係を構成比で比較したところ、�
 ### RemoteWork
 <img width="949" height="537" alt="image" src="https://github.com/user-attachments/assets/7afd7e84-9e9c-4580-91bd-10bb598ba00c" />
 
+<img width="672" height="411" alt="image" src="https://github.com/user-attachments/assets/d32f7804-ad18-4b7d-9686-65f00212f823" />
+
+
 RemoteWork と Attrition の関係を構成比で比較したところ、リモートワーク利用度が低い従業員では離職割合が高く、一方で利用度が高い層では在職割合が高い傾向が確認された。このことから、主観的な WorkLifeBalance 評価よりも、
 具体的な働き方制度の利用状況の方が、離職行動により直接的な影響を与えている可能性が示唆される。
+
+
+### Age
+<img width="283" height="320" alt="image" src="https://github.com/user-attachments/assets/7201e6e5-e683-4c78-ab45-06ccf4f69a82" />
+
+<img width="945" height="437" alt="image" src="https://github.com/user-attachments/assets/6ae4062c-24b5-4337-994d-151e9e2942ab" />
+
+年代別に離職率を算出した結果、18–24歳および25–29歳において離職率が他年代と比較して顕著に高いことが確認された。特に18–24歳では約4割が離職しており、キャリア初期層における定着がW社の固有課題であると考えられる。一方で30代後半から40代にかけては離職率が10%前後で安定しており、
+全社一律施策よりも、若年層に焦点を当てた施策の方が効果的である可能性が示唆された。
+
+#### AgeGroupの分布
+<img width="692" height="490" alt="image" src="https://github.com/user-attachments/assets/a93add44-3dd1-46d5-bff5-88fb625287d7" />
+
+
+### AgeGroupごとのHowToEmploy
+<img width="801" height="437" alt="image" src="https://github.com/user-attachments/assets/ea3c96e8-8311-4d43-b2d0-4927a36764fd" />
+
+年代ごとに差はほとんどない。
+
+### HowToEmployごとのAttrition率
+<img width="813" height="592" alt="image" src="https://github.com/user-attachments/assets/a996562f-557e-43be-8a25-672beca9ca2e" />
+
+いずれの雇用方法でも、離職率に差はほとんどなく20%程
+
+
 
 
 
