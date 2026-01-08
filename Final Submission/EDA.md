@@ -179,6 +179,27 @@ StressRating（客観評価）と StressSelfReported（自己申告）の差分�
 <img width="770" height="452" alt="image" src="https://github.com/user-attachments/assets/1b800a7f-b7bb-4b0d-80e6-1280974a81b1" />
 
 
+### JobSatisfaction
+<img width="997" height="546" alt="image" src="https://github.com/user-attachments/assets/2c7b9bc6-be2d-4396-97f6-53b0eccbdfd0" />
+
+### WorkLifeBalance
+<img width="912" height="547" alt="image" src="https://github.com/user-attachments/assets/e2409025-99e0-42f5-99ef-1b4d1a50fbb4" />
+
+WorkLifeBalance と Attrition の関係を構成比で比較したところ、両者の分布に大きな差は見られなかった。このことから、WorkLifeBalance 単体では離職を強く説明する要因にはなっていない可能性が示唆される。
+一方で、分布が全体的に「Better（3）」に集中していることから、ワークライフバランス施策自体は一定程度浸透しており、離職要因としては他の要素（ストレスの認識ギャップや評価要因）がより重要である可能性が考えられる。
+
+### RemoteWork
+<img width="949" height="537" alt="image" src="https://github.com/user-attachments/assets/7afd7e84-9e9c-4580-91bd-10bb598ba00c" />
+
+RemoteWork と Attrition の関係を構成比で比較したところ、リモートワーク利用度が低い従業員では離職割合が高く、一方で利用度が高い層では在職割合が高い傾向が確認された。このことから、主観的な WorkLifeBalance 評価よりも、
+具体的な働き方制度の利用状況の方が、離職行動により直接的な影響を与えている可能性が示唆される。
+
+
+
+
+
+
+
 ## データセットのカラム一覧（ユニーク値整理版）
 
 - Age（年齢）、int  
@@ -369,12 +390,12 @@ StressRating（客観評価）と StressSelfReported（自己申告）の差分�
   - 値：多数（※ユニーク値が非常に多いため省略）
 
 - RemoteWork（リモートワーク形態）、int  
-  - 0  
+  - 0  : on-site-work
   - 1  
   - 2  
   - 3  
   - 4  
-  - 5  
+  - 5  : full remote
 
 - MonthlyIncome（月収）、int  
   - 値：多数（※ユニーク値が多いため省略）
