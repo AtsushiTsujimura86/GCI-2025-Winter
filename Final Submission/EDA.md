@@ -215,10 +215,27 @@ RemoteWork と Attrition の関係を構成比で比較したところ、リモ�
 
 年代ごとに差はほとんどない。
 
+### AgeGroupごとのRemoteWork
+<img width="862" height="417" alt="image" src="https://github.com/user-attachments/assets/8776179a-d3cc-472d-b37a-cd2bb3c8d337" />
+
+
+### AgeGroup * RemoteWork ごとの離職率
+
+<img width="925" height="438" alt="image" src="https://github.com/user-attachments/assets/3071511f-76a7-40ee-a84c-d7be361e907e" />
+
+
 ### HowToEmployごとのAttrition率
 <img width="813" height="592" alt="image" src="https://github.com/user-attachments/assets/a996562f-557e-43be-8a25-672beca9ca2e" />
 
 いずれの雇用方法でも、離職率に差はほとんどなく20%程
+
+### 在籍年数別離職率
+<img width="917" height="437" alt="image" src="https://github.com/user-attachments/assets/4c59c6f9-340e-44f4-bbbd-875c2f6fb311" />
+
+<img width="928" height="441" alt="image" src="https://github.com/user-attachments/assets/a33fa897-cb23-495b-99df-d1b120d861e2" />
+
+### 通勤距離ごとのリモートワーク構成
+<img width="906" height="438" alt="image" src="https://github.com/user-attachments/assets/30d66add-ec8c-4867-bd02-9fea91a1e38d" />
 
 
 
