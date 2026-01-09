@@ -237,7 +237,16 @@ RemoteWork と Attrition の関係を構成比で比較したところ、リモ�
 ### 通勤距離ごとのリモートワーク構成
 <img width="906" height="438" alt="image" src="https://github.com/user-attachments/assets/30d66add-ec8c-4867-bd02-9fea91a1e38d" />
 
+---
 
+### 職種別インセンティブ
+
+<img width="411" height="384" alt="image" src="https://github.com/user-attachments/assets/2d33e44f-f9a7-44b1-abd3-47c7cfd51484" />
+<img width="1163" height="426" alt="image" src="https://github.com/user-attachments/assets/2d6a5299-2cc6-4b16-95f0-08f52e40f778" />
+<img width="1105" height="441" alt="image" src="https://github.com/user-attachments/assets/ce846031-ec3b-4f10-933e-444797d84982" />
+
+考察：職種別に分析した結果、Sales Representative およびLaboratory Technician において離職率が高く、かつ離職者のインセンティブ水準が非離職者と比較して低い傾向が確認された。一方、Manager や Research Director では
+インセンティブ水準が高く、離職率も低いことから、職種によって評価・報酬制度の機能度に差がある可能性が示唆される。
 
 
 
