@@ -248,6 +248,66 @@ RemoteWork と Attrition の関係を構成比で比較したところ、リモ�
 考察：職種別に分析した結果、Sales Representative およびLaboratory Technician において離職率が高く、かつ離職者のインセンティブ水準が非離職者と比較して低い傾向が確認された。一方、Manager や Research Director では
 インセンティブ水準が高く、離職率も低いことから、職種によって評価・報酬制度の機能度に差がある可能性が示唆される。
 
+### StressRatingとStressSelfReported
+<img width="919" height="577" alt="image" src="https://github.com/user-attachments/assets/3d12c692-9f47-4f5e-bddd-6db0cc628134" />
+
+### 福利厚生とストレス
+====== Self ======
+WelfareBenefits
+1    2.572944
+2    2.225000
+3    1.960452
+4    1.656992
+Name: StressSelfReported, dtype: float64
+
+ExternalFacility
+0    2.305395
+1    1.620370
+Name: StressSelfReported, dtype: float64
+
+InHouseFacility
+0    2.517707
+1    1.824401
+Name: StressSelfReported, dtype: float64
+
+FlexibleWork
+0    2.396970
+1    1.865432
+Name: StressSelfReported, dtype: float64
+
+ExtendedLeave
+0    2.227480
+1    1.738544
+Name: StressSelfReported, dtype: float64
+
+====== Others ======
+WelfareBenefits
+1    3.161804
+2    2.725000
+3    2.361582
+4    1.754617
+Name: StressRating, dtype: float64
+
+ExternalFacility
+0    2.817919
+1    1.733796
+Name: StressRating, dtype: float64
+
+InHouseFacility
+0    3.092749
+1    2.098062
+Name: StressRating, dtype: float64
+
+FlexibleWork
+0    2.942424
+1    2.138272
+Name: StressRating, dtype: float64
+
+ExtendedLeave
+0    2.709736
+1    1.876011
+Name: StressRating, dtype: float64
+
 
 
 
